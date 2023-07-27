@@ -1,0 +1,50 @@
+const mongoose=require("mongoose")
+const {ObjectId} = require("mongodb");
+var productSchema=new mongoose.Schema({
+    shop:{
+        type:ObjectId,
+        required:true,
+        ref:'Shop'
+    },
+    productname:{
+        type:String,
+        required:true
+    },
+    category:{
+        type:ObjectId,
+        ref:"Category",
+        required:true,
+    },
+    subcategory:{
+        type:ObjectId,
+        ref:"Subcategory",
+        required:true
+    },
+    price:{
+        type:Number,
+        required:true
+    },
+    stock:{
+        type:Number,
+        required:true,
+    },
+    image:{
+        type:String,
+        required:true,
+    },
+    description:{
+        type:String,
+        required:true,
+    },
+    availability:{
+        type:String,
+        required:true,
+        default:"Available"
+    },
+    discount_percentage:{
+        type:Number,
+        required:true
+    }
+})
+
+module.exports=mongoose.model("Product",productSchema)

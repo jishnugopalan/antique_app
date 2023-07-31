@@ -34,19 +34,19 @@ exports.getOrderById=(req,res)=>{
 //get order by shop id
 exports.getOrderByShopId=(req,res)=>{
     const vendorId = req.body.shopid 
-
+console.log(vendorId)
 Order.aggregate([
   {
     $lookup: {
       from: 'products',
       localField: 'products.product',
       foreignField: '_id',
-      as: 'products',
+      as: 'productsdetails',
     },
   },
   {
     $match: {
-      'products.shop': mongoose.Types.ObjectId(vendorId),
+   "productsdetails.productname":"Vintage Scooter Miniature",
     },
   },
   {
@@ -63,7 +63,7 @@ Order.aggregate([
 ])
   .exec().then((orders) => {
     if (orders) {
-        return res.status(201).json(order)
+        return res.status(201).json(orders)
         
       } else {
         return res.status(404).json({msg:"Error in fetching order"})

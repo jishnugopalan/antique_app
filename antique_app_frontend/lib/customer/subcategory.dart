@@ -1,43 +1,33 @@
-import 'package:antique_app/customer/subcategory.dart';
-import 'package:antique_app/customer/widgets/bottom_navigation.dart';
+import 'package:antique_app/customer/productpage.dart';
 import 'package:antique_app/customer/widgets/drawer_nav.dart';
 import 'package:antique_app/services/shopservice.dart';
-import 'package:antique_app/widgets/text_widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class CustomerHome extends StatefulWidget {
-  const CustomerHome({super.key});
+class SubcategoryPage extends StatefulWidget {
+  const SubcategoryPage({super.key, required this.categoryid});
+  final String categoryid;
 
   @override
-  State<CustomerHome> createState() => _CustomerHomeState();
+  State<SubcategoryPage> createState() => _SubcategoryPageState();
 }
 
-class _CustomerHomeState extends State<CustomerHome> {
-  ShopService _service = ShopService();
+class _SubcategoryPageState extends State<SubcategoryPage> {
+  late final Response? response2;
+  ShopService service = ShopService();
   List<String> items = [];
-  bool isLoading = false;
-  late final Response? res;
-  Future<void> getAllCategory() async {
-    setState(() {
-      isLoading = true;
-    });
+  getSubCategory() async {
     try {
-      res = await _service.getAllCategory();
-      print(res);
-      setState(() {
-        isLoading = false;
-      });
-      final jsonData = res!.data;
-      for (int i = 0; i < jsonData.length; i++) {
+      response2 = await service.getSubCategory(widget.categoryid);
+      print(response2!.data);
+      final jsonData2 = response2!.data;
+      // subcategory.clear();
+      for (int i = 0; i < jsonData2.length; i++) {
         setState(() {
-          items.add(jsonData[i]["category"]);
+          items.add(jsonData2[i]["subcategory"]);
         });
       }
     } on DioException catch (e) {
-      setState(() {
-        isLoading = false;
-      });
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Error occurred,please try again"),
         duration: Duration(milliseconds: 300),
@@ -45,42 +35,39 @@ class _CustomerHomeState extends State<CustomerHome> {
     }
   }
 
-  gotoSubCategory(index) {
-    final jsonData = res!.data;
+  gotoProducts(index) {
+    final jsonData = response2!.data;
     print(jsonData[index]["_id"]);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) =>
-            SubcategoryPage(categoryid: jsonData[index]["_id"]),
+            ProductPage(subcategoryid: jsonData[index]["_id"]),
       ),
     );
-    print(index);
   }
 
   @override
   void initState() {
     // TODO: implement initState
-    getAllCategory();
     super.initState();
+    getSubCategory();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.all(20),
-            child: const HeadingText(
-                text: "TechRelics", align: TextAlign.left, color: Colors.black),
-          ),
+        appBar: AppBar(
+          title: Text('Subcategories'),
+        ),
+        drawer: CustomerDrawer(),
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
               itemCount: items.length,
+              padding: const EdgeInsets.all(10),
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   child: Container(
@@ -95,7 +82,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                         const SizedBox(height: 8.0),
                         Text(
                           items[index],
-                          textAlign: TextAlign.justify,
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
@@ -105,16 +92,12 @@ class _CustomerHomeState extends State<CustomerHome> {
                     ),
                   ),
                   onTap: () {
-                    print(index);
-                    gotoSubCategory(index);
-                    // Navigator.pushNamed(context, '/subcategory');
+                    gotoProducts(index);
                   },
                 );
               },
             ),
           ),
-        ],
-      ),
-    );
+        ]));
   }
 }

@@ -30,5 +30,10 @@ const orderSchema = new mongoose.Schema({
     orderstatus:{
       type:String,
       default:"Order Pending"
+    },
+    shippingid:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ShippingAddress',
     }
   });
+  module.exports=mongoose.model("Order",orderSchema)

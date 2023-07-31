@@ -25,4 +25,6 @@ routes.post("/addtocart",productController.addToCart)
 routes.post("/getcart-by-userid",productController.getCartByUser)
 routes.post("/delete-cart",productController.deleteCartProduct)
 
+routes.post("/add-shipping-address",productController.addShippingAddress)
+
 module.exports = routes

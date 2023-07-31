@@ -2,6 +2,7 @@ var Product=require("../model/product")
 var Shop=require("../model/shop")
 const {ObjectId} =require ('mongodb');
 var Cart=require("../model/cart")
+const Shipping=require("../model/shipping_address")
 
 //add product
 exports.addProduct=(req,res)=>{
@@ -167,7 +168,7 @@ exports.getCartByUser=(req,res)=>{
     //     else if(cart)
     //     return res.status(201).json(cart)
     // })  
-    Cart.findOne({ user: req.body.userid })
+    Cart.find({ user: req.body.userid })
     .populate('user')
     .populate('products.product')
     .then((cart) => {
@@ -184,18 +185,23 @@ exports.getCartByUser=(req,res)=>{
 
 //delete cart item
 exports.deleteCartProduct=(req,res)=>{
-    Cart.findOneAndUpdate(
-        { user: req.body.userid },
-        { $pull: { products: { product: req.body.productid } } },
-        { new: true },
-        
-      ).then((updatedCart) => {
-        if (!updatedCart) {
-          return res.status(404).json({msg:"Error in updating data"})
-         // console.error('Error deleting product from cart:', error);
-        } else {
-          return res.status(201).json(updatedCart)
-         // console.log('Cart with the product deleted:', updatedCart);
-        }
-      })
+Cart.deleteOne({_id:req.body.cartid}).then((cart)=>{
+    if(cart){
+        return res.status(201).json(cart)
+    }else{
+        return res.status(404).json({msg:"Error in updating data"})
+    }
+})
+}
+
+exports.addShippingAddress=(req,res)=>{
+   let newAddress=Shipping(req.body)
+   newAddress.save().then((address)=>{
+    if(address){
+        return res.status(201).json(address)
+    }
+    else{
+        return res.status(404).json({msg:"error"})
+    }
+   })
 }

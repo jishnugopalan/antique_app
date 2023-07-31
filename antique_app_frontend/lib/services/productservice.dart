@@ -45,4 +45,38 @@ class ProductService {
         data: {"productid": productid, "stock": stock});
     return response;
   }
+
+  getProductBySubCategory(String subcategoryid) async {
+    final response = await dio.post("${url}getproduct-by-subcategory",
+        data: {"subcategoryid": subcategoryid});
+    return response;
+  }
+
+  addToCart(String cart) async {
+    final response = await dio.post("${url}addtocart", data: cart);
+    return response;
+  }
+
+  getCartById(String userid) async {
+    final response =
+        await dio.post("${url}getcart-by-userid", data: {"userid": userid});
+    return response;
+  }
+
+  deleteCartItem(String cartid) async {
+    final response =
+        await dio.post("${url}delete-cart", data: {"cartid": cartid});
+    return response;
+  }
+
+  addShippingAddress(String address) async {
+    final response =
+        await dio.post("${url}add-shipping-address", data: address);
+    return response;
+  }
+
+  startOrder(String orderdata) async {
+    final response = await dio.post("${url}createorder", data: orderdata);
+    return response;
+  }
 }

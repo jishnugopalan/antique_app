@@ -7,5 +7,9 @@ routes.post("/getorder-by-shopid",orderController.getOrderByShopId)
 routes.post("/getorder-by-userid",orderController.getOrderByUserid)
 routes.post("/cancelorder",orderController.cancelOrder)
 routes.post("/startpayment",orderController.startPayment)
+routes.post("/decreasestock",orderController.decreaseProductsStock)
+routes.post("/deleteallcartitems",orderController.deleteAllItemFromCart)
+routes.post("/updateorderstatus",orderController.updateOrderStatus)
+
 
 module.exports = routes

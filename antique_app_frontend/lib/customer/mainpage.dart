@@ -18,10 +18,22 @@ class MainPage extends StatelessWidget {
       valueListenable: indexChanged,
       builder: (context, int index, child) {
         return Scaffold(
-          appBar: AppBar(title: Text(tites[index])),
+          appBar: AppBar(
+            title: Text(tites[index]),
+            actions: [
+              Container(
+                child: IconButton(
+                  icon: Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/cart");
+                  },
+                ),
+              )
+            ],
+          ),
           bottomNavigationBar: const CustomerBottomNav(),
           body: pages[index],
-          drawer:const CustomerDrawer(),
+          drawer: const CustomerDrawer(),
         );
       },
     );

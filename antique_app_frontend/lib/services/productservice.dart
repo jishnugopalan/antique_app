@@ -79,4 +79,33 @@ class ProductService {
     final response = await dio.post("${url}createorder", data: orderdata);
     return response;
   }
+
+  startPayment(String paymentdata) async {
+    final response = await dio.post("${url}startpayment", data: paymentdata);
+    return response;
+  }
+
+  decreaseStock(String productid, int qty) async {
+    final response = await dio
+        .post("${url}decreasestock", data: {"product": productid, "qty": qty});
+    return response;
+  }
+
+  deleteAllCartItems(String userid) async {
+    final response =
+        await dio.post("${url}deleteallcartitems", data: {"userid": userid});
+    return response;
+  }
+
+  getOrderById(String orderid) async {
+    final response =
+        await dio.post("${url}getorder-by-id", data: {"orderid": orderid});
+    return response;
+  }
+
+  updateOrderStatus(String orderid, String status) async {
+    final response = await dio.post("${url}updateorderstatus",
+        data: {"orderid": orderid, "status": status});
+    return response;
+  }
 }

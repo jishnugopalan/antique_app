@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:antique_app/customer/payment.dart';
 import 'package:antique_app/customer/viewsingleproduct.dart';
 import 'package:antique_app/services/productservice.dart';
 import 'package:antique_app/widgets/text_widgets.dart';
@@ -28,6 +29,7 @@ class _CartState extends State<Cart> {
   final _districtController = TextEditingController();
   final _pincodeController = TextEditingController();
   String? shippingid;
+  String orderid = "";
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Form is valid, proceed with form submission or further processing
@@ -88,13 +90,27 @@ class _CartState extends State<Cart> {
       try {
         final Response res = await _productService.startOrder(orderdata);
         print(res.data);
+        setState(() {
+          orderid = res.data["_id"];
+        });
       } on DioException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Error occurred,please try again"),
           duration: Duration(milliseconds: 300),
         ));
       }
-      Navigator.of(context).pop();
+      Navigator.pop(context);
+      if (orderid != null) {
+        print(orderid);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PaymentPage(
+                    orderid: orderid,
+                    amount: total.toInt().toString(),
+                  )),
+        );
+      }
     }
   }
 

@@ -3,6 +3,9 @@ const Order=require("../model/order")
 const mongoose=require("mongoose")
 const Payment=require("../model/payment")
 const {ObjectId}=require("mongodb")
+const payment = require("../model/payment")
+const Cart=require("../model/cart")
+const Product=require("../model/product")
 //create order
 exports.createOrder=(req,res)=>{
     let newOrder=Order(req.body)
@@ -32,43 +35,30 @@ exports.getOrderById=(req,res)=>{
 }
 
 //get order by shop id
-exports.getOrderByShopId=(req,res)=>{
-    const vendorId = req.body.shopid 
-console.log(vendorId)
-Order.aggregate([
-  {
-    $lookup: {
-      from: 'products',
-      localField: 'products.product',
-      foreignField: '_id',
-      as: 'productsdetails',
-    },
-  },
-  {
-    $match: {
-   "productsdetails.productname":"Vintage Scooter Miniature",
-    },
-  },
-  {
-    $lookup: {
-      from: 'users',
-      localField: 'user',
-      foreignField: '_id',
-      as: 'user',
-    },
-  },
-  {
-    $unwind: '$user',
-  },
-])
-  .exec().then((orders) => {
-    if (orders) {
-        return res.status(201).json(orders)
-        
-      } else {
-        return res.status(404).json({msg:"Error in fetching order"})
-      }
-  });
+exports.getOrderByShopId=async (req,res)=>{
+    const shopId = req.body.shopid 
+    try {
+      const orders = await Order.find({
+        "products.product": { $exists: true },
+      })
+        .populate({
+          path: "products.product",
+          match: { shop: shopId },
+        })
+        .exec();
+  
+      // Filter the orders that have at least one product with the given shopId
+     
+      const ordersWithShopProducts = orders.filter((order) => {
+        return order.products.some((product) => {
+          return product.product !== null;
+        });
+      });
+      return res.status(201).json(ordersWithShopProducts)
+    } catch (err) {
+      console.error("Error finding orders by shop ID:", err);
+      throw err;
+    }
 
 }
 
@@ -80,7 +70,7 @@ Order.find({ user: userId })
   .populate('products.product')
   .exec().then((orders) => {
     if (orders) {
-        return res.status(201).json(order)
+        return res.status(201).json(orders)
         
       } else {
         return res.status(404).json({msg:"Error in fetching order"})
@@ -106,35 +96,52 @@ exports.cancelOrder=(req,res)=>{
 //productid,orderid,stock
 exports.startPayment=(req,res)=>{
     console.log(req.body)
-    // req.body.order=new ObjectId(req.body.order)
-    // let newPayment=Payment(req.body)
-    // Product.updateOne({_id:new ObjectId(req.body.product)},{
-    //     $inc: { stock: -(parseInt(req.body.qty))} 
-    // }).then((updated)=>{
-    //     if(!updated)
-    //     return res.status(404).json({msg:err})
-    //     else if(updated){
-    //         newPayment.save().then((payment)=>{
-    //             if(!payment)
-    //             return res.status(404).json({msg:err})
-    //             if(payment){
-    //                // return res.status(201).json(payment)
-    //                 Order.updateOne({_id:new ObjectId(req.body.order)},{
-    //                     $set:{
-    //                         order_status:"Payment Completed"
-    //                     }
-    //                 }).exec().then((upd)=>{
-    //                     if(!upd)
-    //                     return res.status(404).json({msg:"Error in payment"})
-    //                     else if(upd)
-    //                     return res.status(201).json({msg:"Payment completed"})
-    //                 })
-    //             }
-                
-    //         })
-
-    //     }
-       
-    // })
+    let newPayament=Payment(req.body)
+    newPayament.save().then((payment)=>{
+      if(payment){
+        return res.status(201).json(payment)
+      }
+      else{
+        return res.status(404).json({msg:"Error in inserting payment"})
+      }
+    })
     
+}
+exports.decreaseProductsStock=(req,res)=>{
+  Product.updateOne({_id:req.body.product},{
+    $inc: { stock: -(parseInt(req.body.qty))}}).then((upd)=>{
+      if(upd){
+        return res.status(201).json(upd)
+      }
+      else{
+        return res.status(404).json({msg:"error in updating data"})
+      }
+    })
+
+}
+
+exports.deleteAllItemFromCart=(req,res)=>{
+  Cart.deleteMany({user:req.body.userid}).then((cart)=>{
+    if(cart){
+      return res.status(201).json(cart)
+    }
+    else{
+      return res.status(404).json({msg:"Error in deleteing cart"})
+    }
+  })
+}
+
+exports.updateOrderStatus=(req,res)=>{
+  Order.updateOne({_id:req.body.orderid},{
+    $set:{
+      orderstatus:req.body.status
+    }
+  }).then((upd)=>{
+    if(upd){
+      return res.status(201).json(upd)
+    }
+    else{
+      return res.status(404).json({msg:"error in updating data"})
+    }
+  })
 }

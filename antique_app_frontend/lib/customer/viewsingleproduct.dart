@@ -265,23 +265,26 @@ class _ViewSingleProductState extends State<ViewSingleProduct> {
                       padding: const EdgeInsets.only(top: 10),
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue),
+                              backgroundColor: Colors.amber),
                           onPressed: () {
                             getQuantityDetails(_data["_id"]);
                           },
-                          child: const Text("Add to Cart")),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.yellow),
-                          onPressed: () {},
                           child: const Text(
-                            "Buy Now",
+                            "Add to Cart",
                             style: TextStyle(color: Colors.black),
                           )),
-                    )
+                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.only(top: 10),
+                    //   child: ElevatedButton(
+                    //       style: ElevatedButton.styleFrom(
+                    //           backgroundColor: Colors.yellow),
+                    //       onPressed: () {},
+                    //       child: const Text(
+                    //         "Buy Now",
+                    //         style: TextStyle(color: Colors.black),
+                    //       )),
+                    // )
                   ] else ...[
                     Container(
                       padding: const EdgeInsets.only(top: 20),

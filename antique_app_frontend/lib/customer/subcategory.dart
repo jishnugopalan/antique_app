@@ -59,7 +59,7 @@ class _SubcategoryPageState extends State<SubcategoryPage> {
         appBar: AppBar(
           title: Text('Subcategories'),
         ),
-        drawer: CustomerDrawer(),
+        // drawer: CustomerDrawer(),
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
             child: GridView.builder(

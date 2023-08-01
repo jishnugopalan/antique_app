@@ -21,3 +21,5 @@ const paymentSchema = new mongoose.Schema({
       default: 'pending',
     },
   });
+
+  module.exports=mongoose.model("Payment",paymentSchema)

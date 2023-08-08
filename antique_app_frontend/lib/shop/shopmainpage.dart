@@ -1,4 +1,5 @@
 import 'package:antique_app/shop/addproduct.dart';
+import 'package:antique_app/shop/myordershop.dart';
 import 'package:antique_app/shop/orders.dart';
 import 'package:antique_app/shop/shopaccount.dart';
 import 'package:antique_app/shop/shopdashboard.dart';
@@ -6,7 +7,7 @@ import 'package:antique_app/shop/widgets/shop_drawer_nav.dart';
 import 'package:antique_app/shop/widgets/shopbottomnav.dart';
 import 'package:flutter/material.dart';
 
-final pages = [ShopDashboard(), ShopAccount(), ShopOrders()];
+final pages = [ShopDashboard(), ShopAccount(), MyOrdersShop()];
 final tites = ["Home", "Account", "Orders"];
 
 class ShopMainPage extends StatelessWidget {

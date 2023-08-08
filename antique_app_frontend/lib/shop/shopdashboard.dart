@@ -149,45 +149,55 @@ class _ShopDashboardState extends State<ShopDashboard> {
                 ),
                 Row(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * .45,
-                      height: MediaQuery.of(context).size.width * .4,
-                      color: Colors.grey[200],
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      margin: const EdgeInsets.only(left: 10),
-                      child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.post_add,
-                              color: Colors.blue,
-                              size: 30,
-                            ),
-                            SubHeadingText(
-                                align: TextAlign.justify,
-                                color: Colors.black,
-                                text: "Add Auction")
-                          ]),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/create_auction");
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .45,
+                        height: MediaQuery.of(context).size.width * .4,
+                        color: Colors.grey[200],
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        margin: const EdgeInsets.only(left: 10),
+                        child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.post_add,
+                                color: Colors.blue,
+                                size: 30,
+                              ),
+                              SubHeadingText(
+                                  align: TextAlign.justify,
+                                  color: Colors.black,
+                                  text: "Add Auction")
+                            ]),
+                      ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * .45,
-                      height: MediaQuery.of(context).size.width * .4,
-                      color: Colors.grey[200],
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      margin: const EdgeInsets.only(left: 20),
-                      child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.view_headline_outlined,
-                              color: Colors.green,
-                              size: 30,
-                            ),
-                            SubHeadingText(
-                                align: TextAlign.center,
-                                color: Colors.black,
-                                text: "History")
-                          ]),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/myauction");
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .45,
+                        height: MediaQuery.of(context).size.width * .4,
+                        color: Colors.grey[200],
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        margin: const EdgeInsets.only(left: 20),
+                        child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.view_headline_outlined,
+                                color: Colors.green,
+                                size: 30,
+                              ),
+                              SubHeadingText(
+                                  align: TextAlign.center,
+                                  color: Colors.black,
+                                  text: "History")
+                            ]),
+                      ),
                     )
                   ],
                 )

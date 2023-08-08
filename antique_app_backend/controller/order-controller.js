@@ -24,6 +24,7 @@ exports.getOrderById=(req,res)=>{
     Order.findById(req.body.orderid)
     .populate('user')
     .populate('products.product')
+    .populate('shippingid')
     .exec().then((order) => {
       if (order) {
         return res.status(201).json(order)

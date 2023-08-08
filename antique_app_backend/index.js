@@ -23,6 +23,16 @@ mongoose
  .then(() => {
  console.log("DB CONNECTED");
  });
+// mongoose.connect('mongodb://127.0.0.1:27017/techrelics', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
+//   .then(() => {
+//     console.log('Connected to MongoDB');
+//   })
+//   .catch(err => {
+//     console.error('Error connecting to MongoDB:', err);
+//   });
 
  //Middleware
 app.use(bodyParser.json({limit:'10mb'}))

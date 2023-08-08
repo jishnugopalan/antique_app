@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -108,4 +106,26 @@ class ProductService {
         data: {"orderid": orderid, "status": status});
     return response;
   }
+
+  addCategory(String category) async {
+    final response =
+        await dio.post("${url}add-category", data: {"category": category});
+    return response;
+  }
+
+  getAllCategory() async {
+    final response = await dio.post("${url}get-all-category");
+    return response;
+  }
+
+  addSubcategory(String subcategory) async {
+    final response = await dio.post("${url}add-subcategory", data: subcategory);
+    return response;
+  }
+
+  // getSubCategory(String categoryid) async {
+  //   final response = await dio
+  //       .post("${url}get-all-subcategory", data: {"categoryid": categoryid});
+  //   return response;
+  // }
 }

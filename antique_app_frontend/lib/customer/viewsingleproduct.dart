@@ -152,7 +152,18 @@ class _ViewSingleProductState extends State<ViewSingleProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          actions: [
+            Container(
+              child: IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/cart");
+                },
+              ),
+            )
+          ],
+        ),
         body: isloading
             ? const Center(child: CircularProgressIndicator())
             : ListView(

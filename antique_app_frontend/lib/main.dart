@@ -2,18 +2,26 @@ import 'package:antique_app/admin/adminmain.dart';
 import 'package:antique_app/admin/successmsg.dart';
 import 'package:antique_app/customer/account.dart';
 import 'package:antique_app/customer/cart.dart';
-import 'package:antique_app/customer/categories.dart';
+import 'package:antique_app/customer/auction.dart';
 import 'package:antique_app/customer/dashboard.dart';
 import 'package:antique_app/customer/mainpage.dart';
+import 'package:antique_app/customer/vieworder.dart';
 import 'package:antique_app/customer_reg.dart';
 import 'package:antique_app/forgotpassword.dart';
 import 'package:antique_app/login.dart';
+import 'package:antique_app/profile.dart';
 import 'package:antique_app/registration.dart';
 import 'package:antique_app/shop/addproduct.dart';
+import 'package:antique_app/shop/createauction.dart';
+import 'package:antique_app/shop/myauction.dart';
+import 'package:antique_app/shop/myordershop.dart';
 import 'package:antique_app/shop/myproducts.dart';
 import 'package:antique_app/shop/shopmainpage.dart';
 import 'package:antique_app/shop_reg.dart';
 import 'package:flutter/material.dart';
+
+import 'admin/addcategory.dart';
+import 'admin/addsubcategory.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,14 +52,21 @@ class MyApp extends StatelessWidget {
         '/customer_dashboard': (context) => const MainPage(),
         '/customer_account': (context) => const CustomerAccount(),
         '/cart': (context) => const Cart(),
-        '/category': (context) => const Categories(),
+        // '/category': (context) => const Categories(),
         '/admin_dashboard': (context) => const AdminMain(),
         '/adminapprove_msg': (context) => const ShopApproveSuccess(
               message: '',
             ),
         '/shop_dashboard': (context) => const ShopMainPage(),
         '/add_product': (context) => const AddProduct(),
-        '/shop_products': (context) => const ShopProducts()
+        '/shop_products': (context) => const ShopProducts(),
+        '/myorders_customers': (context) => const MyOrdersCustomer(),
+        '/profile': (context) => const ProfilePage(),
+        '/myorders_shop': (context) => const MyOrdersShop(),
+        '/create_auction': (context) => const AuctionForm(),
+        '/myauction': (context) => const MyAuction(),
+        '/addcategory': (context) => AddCategoryForm(),
+        '/addsubcategory': (context) => AddSubcategoryForm()
       },
     );
   }

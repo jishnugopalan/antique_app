@@ -57,7 +57,19 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Product")),
+        appBar: AppBar(
+          title: const Text("Product"),
+          actions: [
+            Container(
+              child: IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/cart");
+                },
+              ),
+            )
+          ],
+        ),
         body: isLoading
             ? const Center(
                 child: CircularProgressIndicator(),

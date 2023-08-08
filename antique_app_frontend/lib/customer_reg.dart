@@ -106,7 +106,7 @@ class _CustomerRegistrationState extends State<CustomerRegistration> {
       "name": name.text,
       "email": email.text,
       "phone": phone.text,
-      "passoword": password.text,
+      "password": password.text,
       "usertype": "customer",
     });
     print(user);

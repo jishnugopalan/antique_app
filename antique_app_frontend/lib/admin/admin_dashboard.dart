@@ -47,6 +47,20 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ),
             onTap: () => {Navigator.pushNamed(context, '/addsubcategory')},
           ),
+          // GestureDetector(
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(10),
+          //         color: Colors.redAccent[100]),
+          //     alignment: Alignment.center,
+          //     padding: const EdgeInsets.all(8),
+          //     child: Text(
+          //       "Complaints",
+          //       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          //     ),
+          //   ),
+          //   onTap: () => {Navigator.pushNamed(context, '/view_all_complaint')},
+          // ),
         ],
       ),
     );

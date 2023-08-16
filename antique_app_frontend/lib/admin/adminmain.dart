@@ -3,9 +3,15 @@ import 'package:antique_app/admin/adminaccount.dart';
 import 'package:antique_app/admin/complaints.dart';
 import 'package:antique_app/admin/shopapproval.dart';
 import 'package:antique_app/admin/widgets/bottom_navigation.dart';
+import 'package:antique_app/viewallcomplaint.dart';
 import 'package:flutter/material.dart';
 
-final pages = [AdminDashboard(), ShopApproval(), AdminAccount(), ComplaintsPage()];
+final pages = [
+  AdminDashboard(),
+  ShopApproval(),
+  AdminAccount(),
+  ViewAllComplaint()
+];
 final tites = ["Home", "Shops", "Account", "Complaints"];
 
 class AdminMain extends StatelessWidget {
@@ -19,7 +25,7 @@ class AdminMain extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(title: Text(tites[index])),
           bottomNavigationBar: const AdminBottomNav(),
-          body: pages[index],          
+          body: pages[index],
         );
       },
     );

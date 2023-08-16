@@ -77,6 +77,22 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.email),
+            title: const Text("Add Complaint"),
+            splashColor: Colors.grey,
+            onTap: () async {
+              Navigator.pushNamed(context, "/add_complaint");
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text("My Complaint"),
+            splashColor: Colors.grey,
+            onTap: () async {
+              Navigator.pushNamed(context, "/view_my_complaint");
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.account_circle),
             title: const Text("My Profile"),
             splashColor: Colors.grey,

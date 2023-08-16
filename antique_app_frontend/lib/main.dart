@@ -1,3 +1,4 @@
+import 'package:antique_app/addcomplaint.dart';
 import 'package:antique_app/admin/adminmain.dart';
 import 'package:antique_app/admin/successmsg.dart';
 import 'package:antique_app/customer/account.dart';
@@ -18,6 +19,8 @@ import 'package:antique_app/shop/myordershop.dart';
 import 'package:antique_app/shop/myproducts.dart';
 import 'package:antique_app/shop/shopmainpage.dart';
 import 'package:antique_app/shop_reg.dart';
+import 'package:antique_app/viewallcomplaint.dart';
+import 'package:antique_app/viewmycomplaint.dart';
 import 'package:flutter/material.dart';
 
 import 'admin/addcategory.dart';
@@ -66,7 +69,10 @@ class MyApp extends StatelessWidget {
         '/create_auction': (context) => const AuctionForm(),
         '/myauction': (context) => const MyAuction(),
         '/addcategory': (context) => AddCategoryForm(),
-        '/addsubcategory': (context) => AddSubcategoryForm()
+        '/addsubcategory': (context) => AddSubcategoryForm(),
+        '/add_complaint': (context) => const AddComplaint(),
+        '/view_all_complaint': (context) => const ViewAllComplaint(),
+        '/view_my_complaint': (context) => const ViewMyComplaint()
       },
     );
   }

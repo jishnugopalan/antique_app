@@ -27,6 +27,23 @@ const auctionSchema=new mongoose.Schema({
         type:Number,
         required:true
     },
+    bids: [
+        {
+        bidder: {
+          type: ObjectId,
+          ref: 'User', // Assuming you have a User model for bidders
+          required: true,
+        },
+        bidAmount: {
+          type: Number,
+          required: true,
+        },
+        bidTime: {
+          type: String,
+          default:Date.now()
+        },
+      }
+    ],
 
 })
 module.exports=mongoose.model("Auction",auctionSchema)

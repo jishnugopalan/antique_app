@@ -49,4 +49,45 @@ class ShopService {
         await dio.post("${url}getshop-by-userid", data: {"userid": userid});
     return response;
   }
+
+//auction
+  addAuctionItem(String detailes) async {
+    final response = await dio.post("${url}addAuctionItem", data: detailes);
+    return response;
+  }
+
+  getAuctionByShopid(String shopid) async {
+    final response =
+        await dio.post("${url}getAuctionByShopid", data: {"shopid": shopid});
+    return response;
+  }
+
+  getAuctionById(String auctionid) async {
+    final response =
+        await dio.post("${url}getAuctionById", data: {"auctionid": auctionid});
+    return response;
+  }
+
+  deleteAuctionById(String auctionid) async {
+    final response = await dio
+        .post("${url}deleteAuctionById", data: {"auctionid": auctionid});
+    return response;
+  }
+
+  updateAuctionStatus(String auctionid, String status) async {
+    final response = await dio.post("${url}updateAuctionStatus",
+        data: {"auctionid": auctionid, "status": status});
+    return response;
+  }
+
+  getAllAuction() async {
+    final response = await dio.post("${url}getAllAuction", data: {});
+    return response;
+  }
+
+  getHighestBidByAuctionId(String auctionid) async {
+    final response = await dio
+        .post("${url}getHighestBidByAuctionId", data: {"auctionid": auctionid});
+    return response;
+  }
 }

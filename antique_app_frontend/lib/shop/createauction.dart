@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:antique_app/services/shopservice.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AuctionForm extends StatefulWidget {
@@ -12,16 +16,94 @@ class AuctionForm extends StatefulWidget {
 
 class _AuctionFormState extends State<AuctionForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  String _productName = '';
-  String _description = '';
-  double _initialAmount = 0.0;
+  final storage = const FlutterSecureStorage();
+  ShopService _service = ShopService();
+  bool isloading = false;
+  TextEditingController _productName = TextEditingController();
+  TextEditingController _description = TextEditingController();
+  TextEditingController _initialAmount = TextEditingController();
   String _auctionStatus = 'Active';
   XFile? _imageFile;
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Perform form submission logic here
+      if (mounted) {
+        setState(() {
+          isloading = true;
+        });
+      }
       print('Form submitted');
+      List<String>? s = _imageFile?.path.toString().split("/");
+      final bytes = await File(_imageFile!.path).readAsBytes();
+      final base64 = base64Encode(bytes);
+      var pic =
+          "data:image/" + s![s.length - 1].split(".")[1] + ";base64," + base64;
+
+      Map<String, String> allValues = await storage.readAll();
+      String? userid = allValues["userid"];
+      String shopid = "";
+      try {
+        final Response? response3 = await _service.getShopByUserId(userid!);
+        shopid = response3!.data["_id"];
+      } on DioException catch (e) {
+        if (e.response != null) {
+          // print(e.response!.data);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Error occurred,please try again 1"),
+            duration: Duration(milliseconds: 300),
+          ));
+        } else {
+          // Something happened in setting up or sending the request that triggered an Error
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Error occurred,please try again 2"),
+            duration: Duration(milliseconds: 300),
+          ));
+        }
+      }
+      print(shopid);
+      var details = jsonEncode({
+        "shop": shopid,
+        "productname": _productName.text,
+        "image": pic,
+        "description": _description.text,
+        "availability": _auctionStatus,
+        "price": _initialAmount.text
+      });
+      print(details);
+      try {
+        final Response res = await _service.addAuctionItem(details);
+        print(res.data);
+        if (mounted) {
+          setState(() {
+            isloading = false;
+          });
+        }
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Auction Added"),
+                content: Text("Auction added successfully"),
+                actions: [
+                  TextButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
+      } on DioException catch (e) {
+        setState(() {
+          isloading = false;
+        });
+        print(e.response!.data);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Error occurred,please try again 3"),
+          duration: Duration(milliseconds: 300),
+        ));
+      }
     }
   }
 
@@ -87,6 +169,7 @@ class _AuctionFormState extends State<AuctionForm> {
                   ),
                 ),
                 TextFormField(
+                  controller: _productName,
                   decoration:
                       InputDecoration(labelText: 'Auction Product Name'),
                   validator: (value) {
@@ -94,9 +177,6 @@ class _AuctionFormState extends State<AuctionForm> {
                       return 'Please enter a product name';
                     }
                     return null;
-                  },
-                  onSaved: (value) {
-                    _productName = value!;
                   },
                 ),
                 TextFormField(
@@ -107,9 +187,7 @@ class _AuctionFormState extends State<AuctionForm> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _description = value!;
-                  },
+                  controller: _description,
                 ),
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Initial Amount'),
@@ -123,9 +201,7 @@ class _AuctionFormState extends State<AuctionForm> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _initialAmount = double.parse(value!);
-                  },
+                  controller: _initialAmount,
                 ),
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(labelText: 'Auction Status'),

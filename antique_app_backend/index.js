@@ -14,6 +14,7 @@ var productRoutes=require("./routes/product-routes")
 var orderRoutes=require("./routes/order-routes")
 var shopRoute=require("./routes/shop-routes")
 var complaintRoutes=require("./routes/complaint-routes")
+var auctionRoutes=require("./routes/auction-routes")
 
 //DB Connection
 mongoose
@@ -46,6 +47,7 @@ app.use('/api',productRoutes)
 app.use('/api',orderRoutes)
 app.use('/api',shopRoute)
 app.use('/api',complaintRoutes)
+app.use('/api',auctionRoutes)
 
 
 

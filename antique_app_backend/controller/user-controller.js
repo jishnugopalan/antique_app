@@ -80,3 +80,56 @@ exports.findUser=(req,res)=>{
         
     })
 }
+exports.updatePhoneNumber=(req,res)=>{
+    User.updateOne({_id:req.body.userid},{
+        $set:{
+            phone:req.body.phone
+        }
+    }).then((user)=>{
+        if(!user){
+            return res.status(404).json({error:"User not found"})
+        }
+        else if(user){
+            return res.status(201).json(user)
+        }
+    })
+}
+exports.updateEmail=(req,res)=>{
+    User.updateOne({_id:req.body.userid},{
+        $set:{
+            email:req.body.email
+        }
+    }).then((user)=>{
+        if(!user){
+            return res.status(404).json({error:"User not found"})
+        }
+        else if(user){
+            return res.status(201).json(user)
+        }
+    })
+}
+exports.updatePassword=(req,res)=>{
+    User.updateOne({_id:req.body.userid},{
+        $set:{
+            password:req.body.password
+        }
+    }).then((user)=>{
+        if(!user){
+            return res.status(404).json({error:"User not found"})
+        }
+        else if(user){
+            return res.status(201).json(user)
+        }
+    })
+}
+exports.findUserByEmail=(req,res)=>{
+    User.findOne({email:req.body.email}).then((user)=>{
+        if(!user){
+            return res.status(404).json({error:"User not found"})
+        }
+        else if(user){
+            return res.status(201).json(user)
+        }
+        
+    })
+}

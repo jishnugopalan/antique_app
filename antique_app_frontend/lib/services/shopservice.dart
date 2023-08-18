@@ -85,6 +85,11 @@ class ShopService {
     return response;
   }
 
+  updateBid(String details) async {
+    final response = await dio.post("${url}updateBid", data: details);
+    return response;
+  }
+
   getHighestBidByAuctionId(String auctionid) async {
     final response = await dio
         .post("${url}getHighestBidByAuctionId", data: {"auctionid": auctionid});

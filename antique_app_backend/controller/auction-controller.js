@@ -75,6 +75,37 @@ exports.updateAuctionStatus=(req,res)=>{
     })
 }
 
+exports.updateBid=(req,res)=>{
+    //auction = Auction.findById(req.body.auctionid);
+    Auction.findOne({_id:req.body.auctionid}).then((auction)=>{
+        if(auction){
+            
+
+       auction.bids.push({
+            bidder:req.body.bidder,
+            bidAmount:req.body.bidAmount,
+            bidTime:new Date()
+        })
+        auction.save().then((upd)=>{
+            if(upd){
+
+                return res.status(201).json(upd)
+            }
+            else{
+            return res.status(404).json({msg:"Error"})
+
+            }
+        })
+
+        console.log(auction)
+
+
+        }else{
+            return res.status(404).json({msg:"Error"})
+        }
+    })
+}
+
 // exports.getHighestBidByAuctionId=(req,res)=>{
 //     Auction.updateOne({_id:req.body.auctionid}).populate('bids.bidder').then((auction)=>{
 //         if(auction){

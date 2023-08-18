@@ -8,6 +8,8 @@ routes.post("/getAuctionByShopid",auctionController.getAuctionByShopid)
 routes.post("/getAuctionById",auctionController.getAuctionById)
 routes.post("/deleteAuctionById",auctionController.deleteAuctionById)
 routes.post("/updateAuctionStatus",auctionController.updateAuctionStatus)
+routes.post("/updateBid",auctionController.updateBid)
+
 //routes.post("/getHighestBidByAuctionId",auctionController.getHighestBidByAuctionId)
 
 module.exports = routes
